@@ -26,8 +26,6 @@ export class Modal extends Component {
 
   state = {
     isVisible: this.props.isVisible,
-    deviceWidth: Dimensions.get("window").width,
-    deviceHeight: Dimensions.get("window").height
   };
 
   animVal = new Animated.Value(0);
@@ -60,17 +58,6 @@ export class Modal extends Component {
     }
   }
 
-  handleDimensionsUpdate = dimensionsUpdate => {
-    const deviceWidth = dimensionsUpdate.width;
-    const deviceHeight = dimensionsUpdate.height;
-    if (
-      deviceWidth !== this.state.deviceWidth ||
-      deviceHeight !== this.state.deviceHeight
-    ) {
-      this.setState({ deviceWidth, deviceHeight });
-    }
-  };
-
   show = () => {
     this.setState({ isVisible: true });
     Animated.timing(this.animVal, {
@@ -98,7 +85,7 @@ export class Modal extends Component {
 
   render() {
     const { children, onBackdropPress, contentStyle } = this.props;
-    const { deviceHeight, deviceWidth, isVisible } = this.state;
+    const { isVisible } = this.state;
     const backdropAnimatedStyle = {
       opacity: this.animVal.interpolate({
         inputRange: [0, 1],
@@ -110,20 +97,25 @@ export class Modal extends Component {
         {
           translateY: this.animVal.interpolate({
             inputRange: [0, 1],
-            outputRange: [deviceHeight, 0],
+            outputRange: [Dimensions.get("screen").width , 0],
             extrapolate: "clamp"
           })
         }
       ]
     };
     return (
-      <ReactNativeModal transparent animationType="none" visible={isVisible} supportedOrientations={['portrait', 'landscape']}>
+      <ReactNativeModal 
+      transparent 
+      animationType="none" 
+      visible={isVisible} 
+      supportedOrientations={['portrait', 'landscape']}
+      >
         <TouchableWithoutFeedback onPress={onBackdropPress}>
           <Animated.View
             style={[
               styles.backdrop,
               backdropAnimatedStyle,
-              { width: deviceWidth, height: deviceHeight }
+              { width: Dimensions.get("screen").width, height: Dimensions.get("screen").height }
             ]}
           />
         </TouchableWithoutFeedback>
