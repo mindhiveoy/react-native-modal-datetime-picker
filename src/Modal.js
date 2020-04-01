@@ -42,22 +42,6 @@ export class Modal extends Component {
     );
   }
 
-  componentWillUnmount() {
-    DeviceEventEmitter.removeListener(
-      "didUpdateDimensions",
-      this.handleDimensionsUpdate
-    );
-    this._isMounted = false;
-  }
-
-  componentDidUpdate(prevProps: ModalPropsType) {
-    if (this.props.isVisible && !prevProps.isVisible) {
-      this.show();
-    } else if (!this.props.isVisible && prevProps.isVisible) {
-      this.hide();
-    }
-  }
-
   show = () => {
     this.setState({ isVisible: true });
     Animated.timing(this.animVal, {
