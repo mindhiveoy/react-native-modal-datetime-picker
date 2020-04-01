@@ -10,7 +10,7 @@ import { ViewStyle } from "react-native";
 import {
   IOSNativeProps,
   AndroidNativeProps
-} from "react-native-community/datetimepicker";
+} from "@react-native-community/datetimepicker";
 
 export type CancelButtonComponent = React.ComponentType<{
   isDarkModeEnabled: boolean;
